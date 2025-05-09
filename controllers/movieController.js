@@ -1,17 +1,7 @@
 const connection = require("../data/db");
 const path = '127.0.0.1:3000';
+const imagePath = require("../utils/imagePath");
 
-
-const imagePathArrFunction = (arr, path) => {
-    return (arr.map(element => {
-        return imagePathObjFunction(element, path)
-    }))
-}
-
-const imagePathObjFunction = (obj, path) => {
-    const imgPath = obj.image;
-    return { ...obj, image: `${path}/${imgPath}` }
-}
 
 
 const index = (req, res) => {
@@ -20,7 +10,7 @@ const index = (req, res) => {
         if (error) {
             return res.status(500).json({ error: 'Database query failed' });
         }
-        res.json(imagePathArrFunction(result, path));
+        res.json(imagePath.arrFun(result, path));
     })
 }
 
@@ -45,7 +35,7 @@ function show(req, res) {
             return res.status(404).json({ error: 'Movie not found' });
         }
 
-        const movie = imagePathObjFunction(movieResults[0], path);
+        const movie = imagePath.objFun(movieResults[0], path);
 
 
         connection.query(reviewSql, [id], (err, reviewResults) => {
