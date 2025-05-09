@@ -1,0 +1,12 @@
+const express = require("express");
+const app = express();
+const port = 3000;
+const movieRouter = require("./routers/movieRouter");
+
+app.use(express.json());
+
+app.use("/movies", movieRouter);
+
+app.listen(port, () => {
+    console.log("Server attivo nella porta 3000")
+})
