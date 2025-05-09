@@ -1,5 +1,5 @@
 const connection = require("../data/db");
-const path = '127.0.0.1:3000';
+const path = process.env.IMAGE_LOCAL_PATH;
 const imagePath = require("../utils/imagePath");
 
 
