@@ -1,4 +1,18 @@
 const connection = require("../data/db");
+const path = '127.0.0.1:3000';
+
+
+const imagePathArrFunction = (arr, path) => {
+    return (arr.map(element => {
+        return imagePathObjFunction(element, path)
+    }))
+}
+
+const imagePathObjFunction = (obj, path) => {
+    const imgPath = obj.image;
+    return { ...obj, image: `${path}/${imgPath}` }
+}
+
 
 const index = (req, res) => {
     const sql = "SELECT * FROM movies"
@@ -6,9 +20,14 @@ const index = (req, res) => {
         if (error) {
             return res.status(500).json({ error: 'Database query failed' });
         }
-        res.json(result);
+        res.json(imagePathArrFunction(result, path));
     })
 }
+
+
+
+
+
 
 function show(req, res) {
     const { id } = req.params;
@@ -26,7 +45,8 @@ function show(req, res) {
             return res.status(404).json({ error: 'Movie not found' });
         }
 
-        const movie = movieResults[0];
+        const movie = imagePathObjFunction(movieResults[0], path);
+
 
         connection.query(reviewSql, [id], (err, reviewResults) => {
             if (err) {
