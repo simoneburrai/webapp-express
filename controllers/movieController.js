@@ -3,9 +3,13 @@ const path = process.env.IMAGE_LOCAL_PATH;
 const imagePath = require("../utils/imagePath");
 
 
-
 const index = (req, res) => {
-    const sql = "SELECT * FROM movies"
+    const sql = `SELECT 
+    movies.*, AVG(reviews.vote) AS average_vote
+    FROM
+        movies
+    LEFT JOIN reviews ON movies.id = movie_id
+    GROUP BY movies.id`
     connection.query(sql, (error, result) => {
         if (error) {
             return res.status(500).json({ error: 'Database query failed' });
@@ -13,11 +17,6 @@ const index = (req, res) => {
         res.json(imagePath.arrFun(result, path));
     })
 }
-
-
-
-
-
 
 function show(req, res) {
     const { id } = req.params;
