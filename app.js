@@ -4,7 +4,14 @@ const port = process.env.PORT;
 const movieRouter = require("./routers/movieRouter");
 const errorHandler = require("./middlewares/errorHandler");
 const pageNotFound = require("./middlewares/pageNotFound");
+const cors = require("cors");
 
+//adding cors path localhost 5173
+app.use(cors({
+    origin: process.env.FE_APP
+}
+))
+console.log(process.env);
 // adding public folder on static 
 app.use(express.static("./public"));
 
