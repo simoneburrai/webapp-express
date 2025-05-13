@@ -60,8 +60,21 @@ function show(req, res) {
     });
 }
 
+function reviewStore(req, res) {
+    const { id } = req.params;
+    const reviewInfo = req.body;
+    console.log(reviewInfo);
+    const defaultReview = {
+        "movie_id": id,
+        "name": "simone",
+        "vote": 3,
+        "text": "recensione"
+    }
+    res.send(`aggiunta recensione al film ${id}`);
+}
 
 module.exports = {
     index,
-    show
+    show,
+    reviewStore
 }

@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get("/", movieController.index);
 router.get("/:id", movieController.show);
-
+router.post("/:id/reviews", movieController.reviewStore)
 
 module.exports = router;
