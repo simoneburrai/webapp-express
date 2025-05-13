@@ -11,7 +11,7 @@ app.use(cors({
     origin: process.env.FE_APP
 }
 ))
-console.log(process.env);
+
 // adding public folder on static 
 app.use(express.static("./public"));
 

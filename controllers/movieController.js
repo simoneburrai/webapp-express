@@ -4,19 +4,29 @@ const imagePath = require("../utils/imagePath");
 
 
 const index = (req, res) => {
-    const sql = `SELECT 
+    const search = req.query.search;
+    console.log(search);
+    let sql = `SELECT 
     movies.*, AVG(reviews.vote) AS average_vote
     FROM
         movies
-    LEFT JOIN reviews ON movies.id = movie_id
-    GROUP BY movies.id`
-    connection.query(sql, (error, result) => {
+    LEFT JOIN reviews ON movies.id = movie_id`
+    if (search) {
+        sql += ` WHERE movies.title LIKE ?
+        OR movies.abstract LIKE ?
+        OR movies.genre LIKE ?`
+    }
+    sql += ` GROUP BY movies.id`
+
+    console.log(sql);
+    connection.query(sql, [`%${search}%`, `%${search}%`, `%${search}%`], (error, result) => {
         if (error) {
             return res.status(500).json({ error: 'Database query failed' });
         }
         res.json(imagePath.arrFun(result, path));
     })
 }
+
 
 function show(req, res) {
     const { id } = req.params;
