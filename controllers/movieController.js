@@ -5,7 +5,7 @@ const imagePath = require("../utils/imagePath");
 
 const index = (req, res) => {
     const search = req.query.search;
-    console.log(search);
+   
     let sql = `SELECT 
     movies.*, AVG(reviews.vote) AS average_vote
     FROM
@@ -18,13 +18,13 @@ const index = (req, res) => {
     }
     sql += ` GROUP BY movies.id`
 
-    console.log(sql);
     connection.query(sql, [`%${search}%`, `%${search}%`, `%${search}%`], (error, result) => {
         if (error) {
             return res.status(500).json({ error: 'Database query failed' });
         }
         res.json(imagePath.arrFun(result, path));
     })
+
 }
 
 
@@ -63,7 +63,7 @@ function show(req, res) {
 function reviewStore(req, res) {
     const { id } = req.params;
     const { name, vote, text } = req.body;
-    console.log(req.body);
+    
     const sql = `INSERT INTO reviews (name, vote, text, movie_id) VALUES (?, ?, ?, ?)`
     connection.query(sql,
         [name, vote, text, id],
