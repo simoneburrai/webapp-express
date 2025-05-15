@@ -28,7 +28,7 @@ const index = (req, res) => {
 function show(req, res) {
     const { id } = req.params;
 
-    const movieSql = `${mySql.selectMovies} WHERE movies.id = ?`
+    const movieSql = mySql.selectSingleMovie;
 
     const reviewSql = mySql.selectReviews;
     console.log(movieSql, reviewSql);
@@ -55,7 +55,22 @@ function show(req, res) {
 
 
 function store(req, res) {
-    res.send("aggiunto nuovo movie");
+
+    const { title, director, genre, release_year, abstract, image } = req.body;
+    const sql = mySql.insertMovie;
+    connection.query(sql,
+        [ title, director, genre, release_year, abstract, image ],
+        (err, result) => {
+            if (err) {
+                return res.status(500).json({ error: 'Database query failed' });
+            } else {
+                res.json({
+                    message: `aggiunto film `
+                });
+            }
+        }
+    );
+    
 }
 
 
