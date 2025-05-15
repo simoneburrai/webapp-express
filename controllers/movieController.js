@@ -53,6 +53,13 @@ function show(req, res) {
     });
 }
 
+
+function store(req, res) {
+    res.send("aggiunto nuovo movie");
+}
+
+
+
 function reviewStore(req, res) {
     const { id } = req.params;
     const { name, vote, text } = req.body;
@@ -76,5 +83,6 @@ function reviewStore(req, res) {
 module.exports = {
     index,
     show,
+    store,
     reviewStore
 }
